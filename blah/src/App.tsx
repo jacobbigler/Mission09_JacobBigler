@@ -1,70 +1,71 @@
-import React from 'react';
 import './App.css';
+import * as React from 'react';
+import teamsData from './CollegeBasketballTeams.json'; // Import the JSON data
 
-interface BandProps {
+interface TeamData {
+  //interface for when I pull data from the json file
+  tid: number;
+  cid: number;
+  did: number;
+  school: string;
   name: string;
-  members: string;
-  formed: number;
+  abbrev: string;
+  pop: number;
+  city: string;
+  state: string;
+  latitude: number;
+  longitude: number;
 }
 
-const bandNames = [
-  {
-    name: 'The Beastie Boys',
-    members: 'Ad Rock, MCA, Mike D',
-    formed: 1979,
-  },
-  {
-    name: 'Wolfmother',
-    members: 'Andrew Stockdale, Hamish Rosser, Bobby Poulton',
-    formed: 2004,
-  },
-  {
-    name: 'Cream',
-    members: 'Eric Clapton, Jack Bruce, Ginger Baker',
-    formed: 1966,
-  },
-  {
-    name: 'Nirvana',
-    members: 'Kurt Cobain, Dave Grohl, Krist Noveselic',
-    formed: 1987,
-  },
-];
-
-function Welcome() {
-  return <h1>The Best Music Trios Ever</h1>;
-}
-
-class Band extends React.Component<BandProps> {
+//TeamCard so I can dynamically input each team into the web page.
+class TeamCard extends React.Component<TeamData> {
   render() {
-    const oneBand = this.props;
-
+    const { school, name, city, state } = this.props;
     return (
-      <div>
-        <h2>{oneBand.name}</h2>
-        <h3>Members: {oneBand.members}</h3>
-        <h3>Formed: {oneBand.formed}</h3>
+      <div className="team-card">
+        <h3>{school}</h3>
+        <p>
+          <strong>Mascot Name:</strong> {name}
+        </p>
+        <p>
+          <strong>Location:</strong> {city}, {state}
+        </p>
       </div>
     );
   }
 }
 
-function BandList() {
+//Heading section to welcome people to the website.
+class HeadingSection extends React.Component {
+  render() {
+    return (
+      <div className="heading-section">
+        <h1>Welcome to College Basketball Teams</h1>
+        <p>Explore various college basketball teams and their information.</p>
+      </div>
+    );
+  }
+}
+
+//function that will list out each team
+function TeamList() {
   return (
-    <div>
-      {bandNames.map((oneBand) => (
-        <Band {...oneBand} />
+    <div className="team-list">
+      {teamsData.teams.map((team) => (
+        <TeamCard key={team.tid} {...team} />
       ))}
     </div>
   );
 }
 
-function App() {
+//App functional component
+const App = () => {
   return (
-    <div className="App">
-      <Welcome />
-      <BandList />
+    <div className="app">
+      <HeadingSection />
+      <TeamList />
     </div>
   );
-}
+};
 
 export default App;
